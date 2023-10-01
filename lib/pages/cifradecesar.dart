@@ -10,25 +10,31 @@ class _CesarPageState extends State<CesarPage> {
   String _textoDecifrado = "";
 
   String decifrarCesar(String textoCriptografado, int deslocamento) {
-    String textoDecifrado = "";
+  String textoDecifrado = "";
 
-    for (int i = 0; i < textoCriptografado.length; i++) {
-      final char = textoCriptografado[i];
-      if (char != ' ') {
-        final codigo = textoCriptografado.codeUnitAt(i);
-        int novoCodigo = codigo - deslocamento;
-        if (novoCodigo < 'A'.codeUnitAt(0)) {
-          novoCodigo += 26;
-        }
-        final novoChar = String.fromCharCode(novoCodigo);
-        textoDecifrado += novoChar;
+  for (int i = 0; i < textoCriptografado.length; i++) {
+    final char = textoCriptografado[i];
+    if (char != ' ') {
+      final codigo = char.codeUnitAt(0);
+      int novoCodigo;
+
+      if (codigo >= 'A'.codeUnitAt(0) && codigo <= 'Z'.codeUnitAt(0)) {
+        novoCodigo = (codigo - deslocamento - 'A'.codeUnitAt(0)) % 26 + 'A'.codeUnitAt(0);
+      } else if (codigo >= 'a'.codeUnitAt(0) && codigo <= 'z'.codeUnitAt(0)) {
+        novoCodigo = (codigo - deslocamento - 'a'.codeUnitAt(0)) % 26 + 'a'.codeUnitAt(0);
       } else {
-        textoDecifrado += ' ';
+        novoCodigo = codigo;
       }
-    }
 
-    return textoDecifrado;
+      final novoChar = String.fromCharCode(novoCodigo);
+      textoDecifrado += novoChar;
+    } else {
+      textoDecifrado += ' ';
+    }
   }
+
+  return textoDecifrado;
+}
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +81,7 @@ class _CesarPageState extends State<CesarPage> {
               ),
               onPressed: () {
                 final textoCriptografado = _textEditingController.text;
-                final deslocamento = 4;
+                final deslocamento = 3;
                 final textoDecifrado = decifrarCesar(textoCriptografado, deslocamento);
                 setState(() {
                   _textoDecifrado = textoDecifrado;
