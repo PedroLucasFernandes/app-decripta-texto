@@ -76,7 +76,7 @@ class _CesarPageState extends State<CesarPage> {
               items: List.generate(26, (index) {
                 return DropdownMenuItem<int>(
                   value: index + 1,
-                  child: Text("Deslocamento ${index + 1}"),
+                  child: Text("ROT ${index + 1}"),
                 );
               }),
               onChanged: (value) {
@@ -102,11 +102,30 @@ class _CesarPageState extends State<CesarPage> {
                   _textoDecifrado = textoDecifrado;
                 });
               },
-              child: Text("Decifrar"),
+              child: Text("Descriptografar"),
             ),
-            SizedBox(height: 55,),
+            SizedBox(height: 10,),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll(Colors.blue),
+                shape: MaterialStatePropertyAll(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+              onPressed: () {
+                final textoCriptografado = _textEditingController.text;
+                final textoDecifrado = decifrarCesar(textoCriptografado, - _selectedDeslocamento);
+                setState(() {
+                  _textoDecifrado = textoDecifrado;
+                });
+              },
+              child: Text("Criptografar"),
+            ),
+            SizedBox(height: 30,),
             Text(
-              "Texto decifrado:",
+              "Resultado:",
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
