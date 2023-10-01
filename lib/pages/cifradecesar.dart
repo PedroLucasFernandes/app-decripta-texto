@@ -1,6 +1,34 @@
 import 'package:flutter/material.dart';
 
-class CesarPage extends StatelessWidget {
+class CesarPage extends StatefulWidget {
+  @override
+  _CesarPageState createState() => _CesarPageState();
+}
+
+class _CesarPageState extends State<CesarPage> {
+  final TextEditingController _textEditingController = TextEditingController();
+  String _textoDecifrado = "";
+
+  String decifrarCesar(String textoCriptografado, int deslocamento) {
+    String textoDecifrado = "";
+
+    for (int i = 0; i < textoCriptografado.length; i++) {
+      final char = textoCriptografado[i];
+      if (char != ' ') {
+        final codigo = textoCriptografado.codeUnitAt(i);
+        int novoCodigo = codigo - deslocamento;
+        if (novoCodigo < 'A'.codeUnitAt(0)) {
+          novoCodigo += 26;
+        }
+        final novoChar = String.fromCharCode(novoCodigo);
+        textoDecifrado += novoChar;
+      } else {
+        textoDecifrado += ' ';
+      }
+    }
+
+    return textoDecifrado;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +53,7 @@ class CesarPage extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             TextFormField(
+              controller: _textEditingController,
               decoration: InputDecoration(
                 labelText: "Digite o texto:",
                 labelStyle: TextStyle(
@@ -45,7 +74,12 @@ class CesarPage extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-
+                final textoCriptografado = _textEditingController.text;
+                final deslocamento = 4;
+                final textoDecifrado = decifrarCesar(textoCriptografado, deslocamento);
+                setState(() {
+                  _textoDecifrado = textoDecifrado;
+                });
               },
               child: Text("Decifrar"),
             ),
@@ -67,7 +101,7 @@ class CesarPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8.0),
               ),
               child: Text(
-                "",
+                _textoDecifrado,
                 style: TextStyle(
                   fontSize: 18.0,
                 ),
