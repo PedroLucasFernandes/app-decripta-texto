@@ -1,6 +1,60 @@
 import 'package:flutter/material.dart';
 
-class VigenerePage extends StatelessWidget {
+class VigenerePage extends StatefulWidget {
+  @override
+  _VigenerePageState createState() => _VigenerePageState();
+}
+
+class _VigenerePageState extends State<VigenerePage> {
+  final TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _chaveEditingController = TextEditingController();
+  String _resultado = "";
+
+  String cifraVigenere(String texto, String chave, bool criptografar) {
+    String resultado = "";
+    int chaveIndex = 0;
+
+    for (int i = 0; i < texto.length; i++) {
+      final charTexto = texto[i];
+      final codigoTexto = charTexto.codeUnitAt(0);
+
+      if (codigoTexto >= 'A'.codeUnitAt(0) && codigoTexto <= 'Z'.codeUnitAt(0)) {
+        final charChave = chave[chaveIndex % chave.length];
+        final codigoChave = charChave.codeUnitAt(0);
+
+        int novoCodigo;
+
+        if (criptografar) {
+          novoCodigo = (codigoTexto + codigoChave - 2 * 'A'.codeUnitAt(0)) % 26 + 'A'.codeUnitAt(0);
+        } else {
+          novoCodigo = (codigoTexto - codigoChave + 26) % 26 + 'A'.codeUnitAt(0);
+        }
+
+        final novoChar = String.fromCharCode(novoCodigo);
+        resultado += novoChar;
+        chaveIndex++;
+      } else if (codigoTexto >= 'a'.codeUnitAt(0) && codigoTexto <= 'z'.codeUnitAt(0)) {
+        final charChave = chave[chaveIndex % chave.length].toLowerCase();
+        final codigoChave = charChave.codeUnitAt(0);
+
+        int novoCodigo;
+
+        if (criptografar) {
+          novoCodigo = (codigoTexto + codigoChave - 2 * 'a'.codeUnitAt(0)) % 26 + 'a'.codeUnitAt(0);
+        } else {
+          novoCodigo = (codigoTexto - codigoChave + 26) % 26 + 'a'.codeUnitAt(0);
+        }
+
+        final novoChar = String.fromCharCode(novoCodigo);
+        resultado += novoChar;
+        chaveIndex++;
+      } else {
+        resultado += charTexto;
+      }
+    }
+
+    return resultado;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +79,7 @@ class VigenerePage extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             TextFormField(
+              controller: _textEditingController,
               decoration: InputDecoration(
                 labelText: "Digite o texto:",
                 labelStyle: TextStyle(
@@ -35,23 +90,60 @@ class VigenerePage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20,),
+            TextFormField(
+              controller: _chaveEditingController, // Adicione este controller
+              decoration: InputDecoration(
+                labelText: "Digite a chave:",
+                labelStyle: TextStyle(
+                  color: Colors.black38,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 20,
+                ),
+              ),
+            ),
+            SizedBox(height: 20,),
             ElevatedButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(Colors.blue),
-                shape: MaterialStatePropertyAll(
+                backgroundColor: MaterialStateProperty.all(Colors.blue),
+                shape: MaterialStateProperty.all(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
               ),
               onPressed: () {
-
+                final texto = _textEditingController.text;
+                final chave = _chaveEditingController.text;
+                final resultado = cifraVigenere(texto, chave, false); // Defina como true para criptografar
+                setState(() {
+                  _resultado = resultado;
+                });
               },
-              child: Text("Decifrar"),
+              child: Text("Descriptografar"),
             ),
-            SizedBox(height: 55,),
+            SizedBox(height: 10,),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.blue),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+              onPressed: () {
+                final texto = _textEditingController.text;
+                final chave = _chaveEditingController.text;
+                final resultado = cifraVigenere(texto, chave, true); // Defina como false para descriptografar
+                setState(() {
+                  _resultado = resultado;
+                });
+              },
+              child: Text("Criptografar"),
+            ),
+            SizedBox(height: 30,),
             Text(
-              "Texto decifrado:",
+              "Resultado:",
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
@@ -67,7 +159,7 @@ class VigenerePage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8.0),
               ),
               child: Text(
-                "",
+                _resultado,
                 style: TextStyle(
                   fontSize: 18.0,
                 ),
@@ -76,8 +168,8 @@ class VigenerePage extends StatelessWidget {
             SizedBox(height: 30,),
             ElevatedButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(Colors.blue),
-                shape: MaterialStatePropertyAll(
+                backgroundColor: MaterialStateProperty.all(Colors.blue),
+                shape: MaterialStateProperty.all(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -85,8 +177,8 @@ class VigenerePage extends StatelessWidget {
               ),
               onPressed: () {
                 Navigator.pop(context);
-            },
-            child: Text("Voltar ao menu inicial")
+              },
+              child: Text("Voltar ao menu inicial")
             ),
           ],
         ),

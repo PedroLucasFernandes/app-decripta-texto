@@ -8,10 +8,10 @@ class CesarPage extends StatefulWidget {
 class _CesarPageState extends State<CesarPage> {
   final TextEditingController _textEditingController = TextEditingController();
   int _selectedDeslocamento = 3; 
-  String _textoDecifrado = "";
+  String _resultado = "";
 
   String decifrarCesar(String textoCriptografado, int deslocamento) {
-  String textoDecifrado = "";
+  String resultado = "";
 
   for (int i = 0; i < textoCriptografado.length; i++) {
     final char = textoCriptografado[i];
@@ -28,13 +28,13 @@ class _CesarPageState extends State<CesarPage> {
       }
 
       final novoChar = String.fromCharCode(novoCodigo);
-      textoDecifrado += novoChar;
+      resultado += novoChar;
     } else {
-      textoDecifrado += ' ';
+      resultado += ' ';
     }
   }
 
-  return textoDecifrado;
+  return resultado;
 }
 
   @override
@@ -97,9 +97,9 @@ class _CesarPageState extends State<CesarPage> {
               ),
               onPressed: () {
                 final textoCriptografado = _textEditingController.text;
-                final textoDecifrado = decifrarCesar(textoCriptografado, _selectedDeslocamento);
+                final resultado = decifrarCesar(textoCriptografado, _selectedDeslocamento);
                 setState(() {
-                  _textoDecifrado = textoDecifrado;
+                  _resultado = resultado;
                 });
               },
               child: Text("Descriptografar"),
@@ -116,9 +116,9 @@ class _CesarPageState extends State<CesarPage> {
               ),
               onPressed: () {
                 final textoCriptografado = _textEditingController.text;
-                final textoDecifrado = decifrarCesar(textoCriptografado, - _selectedDeslocamento);
+                final resultado = decifrarCesar(textoCriptografado, - _selectedDeslocamento);
                 setState(() {
-                  _textoDecifrado = textoDecifrado;
+                  _resultado = resultado;
                 });
               },
               child: Text("Criptografar"),
@@ -141,7 +141,7 @@ class _CesarPageState extends State<CesarPage> {
                 borderRadius: BorderRadius.circular(8.0),
               ),
               child: Text(
-                _textoDecifrado,
+                _resultado,
                 style: TextStyle(
                   fontSize: 18.0,
                 ),
