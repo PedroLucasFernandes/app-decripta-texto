@@ -7,6 +7,7 @@ class CesarPage extends StatefulWidget {
 
 class _CesarPageState extends State<CesarPage> {
   final TextEditingController _textEditingController = TextEditingController();
+  int _selectedDeslocamento = 3; 
   String _textoDecifrado = "";
 
   String decifrarCesar(String textoCriptografado, int deslocamento) {
@@ -70,6 +71,21 @@ class _CesarPageState extends State<CesarPage> {
               ),
             ),
             SizedBox(height: 20,),
+            DropdownButton<int>(
+              value: _selectedDeslocamento,
+              items: List.generate(26, (index) {
+                return DropdownMenuItem<int>(
+                  value: index + 1,
+                  child: Text("Deslocamento ${index + 1}"),
+                );
+              }),
+              onChanged: (value) {
+                setState(() {
+                  _selectedDeslocamento = value!;
+                });
+              },
+            ),
+            SizedBox(height: 20,),
             ElevatedButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll(Colors.blue),
@@ -81,8 +97,7 @@ class _CesarPageState extends State<CesarPage> {
               ),
               onPressed: () {
                 final textoCriptografado = _textEditingController.text;
-                final deslocamento = 3;
-                final textoDecifrado = decifrarCesar(textoCriptografado, deslocamento);
+                final textoDecifrado = decifrarCesar(textoCriptografado, _selectedDeslocamento);
                 setState(() {
                   _textoDecifrado = textoDecifrado;
                 });
