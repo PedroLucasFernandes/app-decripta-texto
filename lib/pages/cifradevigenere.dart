@@ -11,50 +11,50 @@ class _VigenerePageState extends State<VigenerePage> {
   String _resultado = "";
 
   String cifraVigenere(String texto, String chave, bool criptografar) {
-    String resultado = "";
-    int chaveIndex = 0;
+  String resultado = "";
+  int chaveIndex = 0;
 
-    for (int i = 0; i < texto.length; i++) {
-      final charTexto = texto[i];
-      final codigoTexto = charTexto.codeUnitAt(0);
+  for (int i = 0; i < texto.length; i++) {
+    final charTexto = texto[i];
+    final codigoTexto = charTexto.codeUnitAt(0);
 
-      if (codigoTexto >= 'A'.codeUnitAt(0) && codigoTexto <= 'Z'.codeUnitAt(0)) {
-        final charChave = chave[chaveIndex % chave.length];
-        final codigoChave = charChave.codeUnitAt(0);
+    if (codigoTexto >= 'A'.codeUnitAt(0) && codigoTexto <= 'Z'.codeUnitAt(0)) {
+      final charChave = chave[chaveIndex % chave.length].toUpperCase();
+      final codigoChave = charChave.codeUnitAt(0);
 
-        int novoCodigo;
+      int novoCodigo;
 
-        if (criptografar) {
-          novoCodigo = (codigoTexto + codigoChave - 2 * 'A'.codeUnitAt(0)) % 26 + 'A'.codeUnitAt(0);
-        } else {
-          novoCodigo = (codigoTexto - codigoChave + 26) % 26 + 'A'.codeUnitAt(0);
-        }
-
-        final novoChar = String.fromCharCode(novoCodigo);
-        resultado += novoChar;
-        chaveIndex++;
-      } else if (codigoTexto >= 'a'.codeUnitAt(0) && codigoTexto <= 'z'.codeUnitAt(0)) {
-        final charChave = chave[chaveIndex % chave.length].toLowerCase();
-        final codigoChave = charChave.codeUnitAt(0);
-
-        int novoCodigo;
-
-        if (criptografar) {
-          novoCodigo = (codigoTexto + codigoChave - 2 * 'a'.codeUnitAt(0)) % 26 + 'a'.codeUnitAt(0);
-        } else {
-          novoCodigo = (codigoTexto - codigoChave + 26) % 26 + 'a'.codeUnitAt(0);
-        }
-
-        final novoChar = String.fromCharCode(novoCodigo);
-        resultado += novoChar;
-        chaveIndex++;
+      if (criptografar) {
+        novoCodigo = (codigoTexto + codigoChave - 2 * 'A'.codeUnitAt(0)) % 26 + 'A'.codeUnitAt(0);
       } else {
-        resultado += charTexto;
+        novoCodigo = (codigoTexto - codigoChave + 26) % 26 + 'A'.codeUnitAt(0);
       }
-    }
 
-    return resultado;
+      final novoChar = String.fromCharCode(novoCodigo);
+      resultado += novoChar;
+      chaveIndex++;
+    } else if (codigoTexto >= 'a'.codeUnitAt(0) && codigoTexto <= 'z'.codeUnitAt(0)) {
+      final charChave = chave[chaveIndex % chave.length].toLowerCase();
+      final codigoChave = charChave.codeUnitAt(0);
+
+      int novoCodigo;
+
+      if (criptografar) {
+        novoCodigo = (codigoTexto + codigoChave - 2 * 'a'.codeUnitAt(0)) % 26 + 'a'.codeUnitAt(0);
+      } else {
+        novoCodigo = (codigoTexto - codigoChave + 26) % 26 + 'a'.codeUnitAt(0);
+      }
+
+      final novoChar = String.fromCharCode(novoCodigo);
+      resultado += novoChar;
+      chaveIndex++;
+    } else {
+      resultado += charTexto;
+    }
   }
+
+  return resultado;
+}
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +91,8 @@ class _VigenerePageState extends State<VigenerePage> {
             ),
             SizedBox(height: 20,),
             TextFormField(
-              controller: _chaveEditingController, // Adicione este controller
+              controller: _chaveEditingController,
+              keyboardType: TextInputType.name,
               decoration: InputDecoration(
                 labelText: "Digite a chave:",
                 labelStyle: TextStyle(
