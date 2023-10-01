@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
         "/cifradecesar" : (context) => CesarPage(),
         "/cifradevigenere" : (context) => VigenerePage(),
       },
+      debugShowCheckedModeBanner: false,
       home: HomePage(),
     );
   }
