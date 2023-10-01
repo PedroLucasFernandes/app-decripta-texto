@@ -7,51 +7,71 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
-        title: Text(
-          "Seja muito bem-vindo(a)!",
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
+        title: Center(
+          child: Text(
+            "Seja muito bem-vindo(a)!",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 25,
+            ),
           ),
         ),
       ),
-      body: Container(
-        padding: EdgeInsets.all(40),
-        child: ListView(
-          children: <Widget>[
-            Text("Selecione a cifra que você quer decriptar:"),
-            SizedBox(height: 30,),
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(Colors.blue),
-                shape: MaterialStatePropertyAll(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+      body: Center(
+        child: Container(
+          padding: EdgeInsets.all(40),
+          child: ListView(
+            children: <Widget>[
+              Text(
+                "Selecione a cifra que você quer decriptar ou encriptar:",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              SizedBox(height: 30,),
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(Colors.blue),
+                  shape: MaterialStatePropertyAll(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                ),
+                onPressed : () {
+                  Navigator.pushNamed(context, '/cifradecesar');
+                },
+                child : Text(
+                  "Cifra de César",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold
                   ),
                 ),
               ),
-              onPressed : () {
-                Navigator.pushNamed(context, '/cifradecesar');
-              },
-              child : Text("Cifra de César")
-            ),
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(Colors.blue),
-                shape: MaterialStatePropertyAll(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(Colors.blue),
+                  shape: MaterialStatePropertyAll(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                 ),
+                onPressed : () {
+                  Navigator.pushNamed(context, '/cifradevigenere');
+                },
+                child : Text(
+                  "Cifra de Vigenère",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold
+                  ),  
+                ),
               ),
-              onPressed : () {
-                Navigator.pushNamed(context, '/cifradevigenere');
-              },
-              child : Text("Cifra de Vigenère"),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -102,7 +102,13 @@ class _CesarPageState extends State<CesarPage> {
                   _resultado = resultado;
                 });
               },
-              child: Text("Descriptografar"),
+              child: Text(
+                "Descriptografar",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
             ),
             SizedBox(height: 10,),
             ElevatedButton(
@@ -121,7 +127,13 @@ class _CesarPageState extends State<CesarPage> {
                   _resultado = resultado;
                 });
               },
-              child: Text("Criptografar"),
+              child: Text(
+                "Criptografar",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold
+                ),    
+              ),
             ),
             SizedBox(height: 30,),
             Text(
@@ -160,7 +172,13 @@ class _CesarPageState extends State<CesarPage> {
               onPressed: () {
                 Navigator.pop(context);
             },
-            child: Text("Voltar ao menu inicial")
+              child: Text(
+                "Voltar ao menu inicial",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
             ),
           ],
         ),
