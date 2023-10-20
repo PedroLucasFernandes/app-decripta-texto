@@ -171,7 +171,7 @@ class _VigenerePageState extends State<VigenerePage> {
                 ),
                 borderRadius: BorderRadius.circular(8.0),
               ),
-              child: Text(
+              child: SelectableText(
                 _resultado,
                 style: TextStyle(
                   fontSize: 18.0,
